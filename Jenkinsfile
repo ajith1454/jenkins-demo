@@ -2,28 +2,24 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone') {
+
+        stage('Clone Repo') {
             steps {
-                echo 'Cloning Repository...'
+                git 'https://github.com/ajith1454/jenkins-demo.git'
             }
         }
 
-        stage('Build') {
+        stage('Build Docker Image') {
             steps {
-                echo 'Building the project...'
+                bat 'docker build -t ajith-devops-app .'
             }
         }
 
-        stage('Test') {
+        stage('Run Container') {
             steps {
-                echo 'Running tests...'
+                bat 'docker run -d -p 5000:5000 ajith-devops-app'
             }
         }
 
-        stage('Deploy') {
-            steps {
-                echo 'Deploying application...'
-            }
-        }
     }
 }
